@@ -16,3 +16,16 @@ Running list of things I do not yet understand, kept week by week.
 - Why does the Internet Archive's Tesseract OCR of the page fail so completely
   on the sideways strip — is it an orientation problem, a layout problem, or
   both?
+
+## Week 03
+
+- The Vogue page "Ride She Would" (`508-coursework/week-03/vogue-riding-skirt/`)
+  prints no date, only the running head, page number 48, and the "Publisher's
+  Notices". Which issue/year is it? I need another page from the same issue or a
+  bibliographic record to date it; the page alone cannot settle it.
+- Who were the Warwickshire "young Countess" and "the Earl"? The article is
+  unsigned and names neither them nor the hunting house. Is the story
+  documentary at all, or a Vogue set-piece written to sell the divided skirt?
+- Are the three uncaptioned illustrations (a ceramic shelf, two wooden
+  saddle/chair forms) meant to be the Countess's new saddle? Nothing on the page
+  says so.
