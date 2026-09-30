@@ -1,0 +1,5 @@
+[
+ {"issue_no":1,"date_raw":"December 17, 1892","date_iso":"1892-12-17","date_basis":"printed masthead 'VOL. I., NO. 1 ... DECEMBER 17, 1892' and the archive citation header","volume":"I","page_count":36,"source_key":"vogue-1892-12-17","note":""},
+ {"issue_no":2,"date_raw":"December 24, 1892","date_iso":"1892-12-24","date_basis":"archive citation header 'Vogue1. 2 (Dec 24, 1892)'; masthead date partly illegible in OCR ('DECEMBER 18g=')","volume":"I","page_count":28,"source_key":"vogue-1892-12-24","note":"Masthead date read as 1892 only from the archive header; the printed date line is badly OCR'd."},
+ {"issue_no":3,"date_raw":"December 31, 1892","date_iso":"1892-12-31","date_basis":"archive citation header 'Vogue1. 3 (Dec 31, 1892)' and printed '31 DECEMBER, 18ga'","volume":"I","page_count":24,"source_key":"vogue-1892-12-31","note":""}
+]

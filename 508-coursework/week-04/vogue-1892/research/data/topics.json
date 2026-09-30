@@ -1,0 +1,1108 @@
+[
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 2,
+  "term_raw": "FIFTH AVENUE HOTEL",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 2,
+  "term_raw": "MURRAY HILL HOTEL",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 2,
+  "term_raw": "GILSEY HOUSE",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 2,
+  "term_raw": "STURTEVANT HOUSE",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 2,
+  "term_raw": "Zollhaus, Germany",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 5,
+  "term_raw": "SILK",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 5,
+  "term_raw": "India Rugs",
+  "kind": "object",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 12,
+  "term_raw": "Palais Royal",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 12,
+  "term_raw": "Langley's studio",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 12,
+  "term_raw": "Tepic",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 13,
+  "term_raw": "Longchamps",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 13,
+  "term_raw": "Grand Prix",
+  "kind": "event",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 13,
+  "term_raw": "Hottinguer's",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 13,
+  "term_raw": "Saint Peter's",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 14,
+  "term_raw": "Honfleur",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 14,
+  "term_raw": "Barbizon",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 14,
+  "term_raw": "Normandy",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 14,
+  "term_raw": "Switzerland",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 14,
+  "term_raw": "Aigremont",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 18,
+  "term_raw": "broadcloth",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 18,
+  "term_raw": "black fannel",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 18,
+  "term_raw": "twill",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 18,
+  "term_raw": "Horse Show",
+  "kind": "event",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 18,
+  "term_raw": "Inverness cape",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 18,
+  "term_raw": "sack coat",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 18,
+  "term_raw": "cutaway coat",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 18,
+  "term_raw": "velvet collar",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 18,
+  "term_raw": "plaids",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 19,
+  "term_raw": "white waistcoat",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 19,
+  "term_raw": "Prince's tie",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 19,
+  "term_raw": "white piqué",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 19,
+  "term_raw": "Marseilles",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 19,
+  "term_raw": "Oxford",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 19,
+  "term_raw": "Burlington Arcade",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 19,
+  "term_raw": "Bowery",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 20,
+  "term_raw": "satin ribbon",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 21,
+  "term_raw": "Central Park",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 21,
+  "term_raw": "Yonkers",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 21,
+  "term_raw": "Flower Show",
+  "kind": "event",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 22,
+  "term_raw": "Irish lace",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 22,
+  "term_raw": "pink satin",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 22,
+  "term_raw": "Minton china",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 25,
+  "term_raw": "Patriarch ball",
+  "kind": "event",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 25,
+  "term_raw": "rosebud dinner",
+  "kind": "event",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 25,
+  "term_raw": "Tiffany building",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 26,
+  "term_raw": "St. George's Church",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 26,
+  "term_raw": "Columbia College Ball",
+  "kind": "event",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 26,
+  "term_raw": "New Bond Street",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 26,
+  "term_raw": "May Fair",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 27,
+  "term_raw": "Beaufort Castle",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 27,
+  "term_raw": "Windsor Hill",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 27,
+  "term_raw": "Ennismore Gardens",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 36,
+  "term_raw": "tea gown",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 36,
+  "term_raw": "collarette",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 36,
+  "term_raw": "Cluny lace",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 36,
+  "term_raw": "chiffon",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 36,
+  "term_raw": "guipure",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 36,
+  "term_raw": "Watteau pleat",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 36,
+  "term_raw": "pelerine",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 36,
+  "term_raw": "toque",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 36,
+  "term_raw": "black fox",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 36,
+  "term_raw": "rayé velvet",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 36,
+  "term_raw": "pale pink",
+  "kind": "color",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 36,
+  "term_raw": "violet cloth",
+  "kind": "color",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 36,
+  "term_raw": "Sherry's Blue Room",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 36,
+  "term_raw": "Louis Quinze heel",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-17",
+  "ocr_page": 36,
+  "term_raw": "patent leather",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 5,
+  "term_raw": "humps",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 5,
+  "term_raw": "bustle",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 5,
+  "term_raw": "velvet",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 8,
+  "term_raw": "Prince's knot",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 8,
+  "term_raw": "four-in-hand",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 8,
+  "term_raw": "waistcoat",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 8,
+  "term_raw": "pearls",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 10,
+  "term_raw": "lace",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 10,
+  "term_raw": "Flemish guipure",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 10,
+  "term_raw": "Alençon",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 10,
+  "term_raw": "Venetian point",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 10,
+  "term_raw": "Valenciennes",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 10,
+  "term_raw": "Point d' esprit",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 10,
+  "term_raw": "chiffon",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 10,
+  "term_raw": "coquille",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 10,
+  "term_raw": "Watteau plait",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 10,
+  "term_raw": "Figaro jacket",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 10,
+  "term_raw": "Empire style",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 10,
+  "term_raw": "pale pink",
+  "kind": "color",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 11,
+  "term_raw": "bengaline",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 11,
+  "term_raw": "Brussels lace",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 11,
+  "term_raw": "black velvet",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 11,
+  "term_raw": "black guipure",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 11,
+  "term_raw": "suede",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 11,
+  "term_raw": "heliotrope",
+  "kind": "color",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 11,
+  "term_raw": "rose pink",
+  "kind": "color",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 14,
+  "term_raw": "Tuxedo coat",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 14,
+  "term_raw": "Lorgnette chains",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 14,
+  "term_raw": "square-cut bodice",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 14,
+  "term_raw": "muslins",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 16,
+  "term_raw": "Splendide",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 16,
+  "term_raw": "crimson velvet",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 17,
+  "term_raw": "Rue Cambon",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 17,
+  "term_raw": "Boulevard Malesherbes",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 17,
+  "term_raw": "Rue Royale",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 17,
+  "term_raw": "Gare du Nord",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 21,
+  "term_raw": "Gramercy Park",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 21,
+  "term_raw": "St. George's Church",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 21,
+  "term_raw": "Washington Square",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 21,
+  "term_raw": "Sherry's",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 21,
+  "term_raw": "Tuxedo",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 22,
+  "term_raw": "White Lodge",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 22,
+  "term_raw": "Sandringham",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 22,
+  "term_raw": "Osborne",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 22,
+  "term_raw": "Garrisons-on-the-Hudson",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 23,
+  "term_raw": "Madame Caroline Testout",
+  "kind": "flower",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 23,
+  "term_raw": "American Beauties",
+  "kind": "flower",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 23,
+  "term_raw": "green carnation",
+  "kind": "flower",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 23,
+  "term_raw": "South Mimms",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 23,
+  "term_raw": "Hatfield",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 23,
+  "term_raw": "Dover House",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 23,
+  "term_raw": "Hans Place",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 23,
+  "term_raw": "Oldfield Lodge",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 25,
+  "term_raw": "Columbian Exposition",
+  "kind": "event",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 25,
+  "term_raw": "World's Fair",
+  "kind": "event",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-24",
+  "ocr_page": 25,
+  "term_raw": "Chicago",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 8,
+  "term_raw": "pale gray bengaline",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 8,
+  "term_raw": "white guipure lace",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 8,
+  "term_raw": "crêpe de chine",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 8,
+  "term_raw": "Eton jacket",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 8,
+  "term_raw": "bébé corsage",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 8,
+  "term_raw": "fichu cape",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 8,
+  "term_raw": "olive green velvet",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 8,
+  "term_raw": "reception gown",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 8,
+  "term_raw": "marten",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 9,
+  "term_raw": "passementerie",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 9,
+  "term_raw": "blue-fox",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 9,
+  "term_raw": "heliotrope silk",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 9,
+  "term_raw": "heliotrope velvet",
+  "kind": "color",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 9,
+  "term_raw": "vermicelli pattern",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 9,
+  "term_raw": "princess",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 9,
+  "term_raw": "sable",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 10,
+  "term_raw": "Vanity Fair",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 10,
+  "term_raw": "Jockey Club",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 12,
+  "term_raw": "peach-flower surah",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 14,
+  "term_raw": "yellow",
+  "kind": "color",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 17,
+  "term_raw": "Washington Square",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 17,
+  "term_raw": "Lincoln Inn Fields",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 17,
+  "term_raw": "St. Martin's Lane",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 17,
+  "term_raw": "Fifth Avenue",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 17,
+  "term_raw": "London",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 18,
+  "term_raw": "Ephesus",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 18,
+  "term_raw": "Ninth Street",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 18,
+  "term_raw": "Fifth Avenue",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 20,
+  "term_raw": "bottle green melton",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 20,
+  "term_raw": "divided skirts",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 20,
+  "term_raw": "buckskin",
+  "kind": "material",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 20,
+  "term_raw": "four-in-hand tie",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 20,
+  "term_raw": "hunting costume",
+  "kind": "garment",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 20,
+  "term_raw": "London",
+  "kind": "place",
+  "note": ""
+ },
+ {
+  "issue": "1892-12-31",
+  "ocr_page": 20,
+  "term_raw": "Warwickshire,",
+  "kind": "place",
+  "note": ""
+ }
+]

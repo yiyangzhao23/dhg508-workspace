@@ -1,0 +1,13 @@
+# Large generated / source files: kept locally, never committed (week 4 asks
+# for large files out of git). research/data/*.json + code/ rebuild everything.
+artifacts/
+sources/raw/
+*.pdf
+
+# The root .gitignore ignores *.db; week 4 asks for the database in the fork,
+# so re-include this one (it is small and rebuilt from research/data/*.json).
+!vogue-1892.db
+
+.DS_Store
+__pycache__/
+*.db-journal

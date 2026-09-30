@@ -1,0 +1,3 @@
+# The root .gitignore ignores *.db; this small database is part of the week-3
+# hand-in, so re-include it (rebuilt from records.json by build_db.py).
+!data.db
