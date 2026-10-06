@@ -23,6 +23,7 @@ import json
 import os
 import re
 import sqlite3
+import ssl
 import urllib.error
 import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -55,6 +56,23 @@ def connect():
     return con
 
 
+def ssl_context():
+    """A CA bundle, because the macOS framework Python ships none by default.
+
+    Tries $SSL_CERT_FILE, then the macOS system store, then certifi if present.
+    Without this, urllib.request raises CERTIFICATE_VERIFY_FAILED (curl works
+    because it uses the system store; Python here does not).
+    """
+    for cafile in (os.environ.get("SSL_CERT_FILE"), "/etc/ssl/cert.pem"):
+        if cafile and Path(cafile).is_file():
+            return ssl.create_default_context(cafile=cafile)
+    try:
+        import certifi
+        return ssl.create_default_context(cafile=certifi.where())
+    except ImportError:
+        return ssl.create_default_context()
+
+
 def issues(con):
     return [dict(r) for r in con.execute(
         "SELECT id, date_raw, date_iso, volume, issue_no, page_count FROM issues ORDER BY date_iso")]
@@ -67,7 +85,8 @@ def _terms(question):
 def _intent_kinds(ql):
     rules = [
         (("广告", "advertis", "brand", "shop"), "advertisers"),
-        (("人物", "谁", "主编", "编辑", "people", "who", "editor"), "people"),
+        (("主编", "编辑", "editor", "edited"), "editors"),
+        (("人物", "谁", "people", "who"), "people"),
         (("材料", "面料", "布料", "fabric", "material", "textile"), ("topics", "material")),
         (("颜色", "color", "colour"), ("topics", "color")),
         (("服饰", "服装", "衣服", "裙", "garment", "dress", "gown", "fashion"), ("topics", "garment")),
@@ -75,16 +94,24 @@ def _intent_kinds(ql):
         (("花卉", "花", "flower", "floral"), ("topics", "flower")),
         (("文章", "标题", "article", "title"), "entries"),
     ]
-    kinds = []
-    for keys, target in rules:
-        if any(k in ql for k in keys):
-            kinds.append(target)
-    return kinds
+    return [target for keys, target in rules if any(k in ql for k in keys)]
 
 
-def retrieve(con, question, per_term=8, sample=15):
-    """Pull the rows the model is allowed to use: keyword matches + intent samples."""
+def _years(question):
+    return sorted(set(re.findall(r"\b(1[89]\d{2})\b", question)))
+
+
+def retrieve(con, question, per_term=8, sample=40):
+    """Pull the rows the model may use: keyword matches + category samples.
+
+    If the question names a year (e.g. 1893), every query is restricted to that
+    year's issues, so "1893 年的材料" cannot answer with rows from other years.
+    """
     records, seen = [], set()
+    years = _years(question)
+    yc = " AND (" + " OR ".join("i.date_iso LIKE ?" for _ in years) + ")" if years else ""
+    yp = [f"{y}%" for y in years]
+    JOIN = "JOIN pages p ON p.id={a}.page_id JOIN issues i ON i.id=p.issue_id"
 
     def add(table, rid, label, detail, source):
         key = (table, rid)
@@ -94,38 +121,46 @@ def retrieve(con, question, per_term=8, sample=15):
         records.append({"table": table, "id": rid, "label": label.strip(),
                         "detail": (detail or "").strip(), "source": source or ""})
 
+    def q(sql, params):
+        return con.execute(sql, params)
+
     for term in _terms(question):
         like = f"%{term}%"
-        for r in con.execute("SELECT id,name_raw,category_raw,city_raw,source FROM advertisers "
-                             "WHERE lower(name_raw) LIKE ? LIMIT ?", (like, per_term)):
+        for r in q(f"SELECT a.id,a.name_raw,a.category_raw,a.city_raw,a.source FROM advertisers a {JOIN.format(a='a')} "
+                   f"WHERE lower(a.name_raw) LIKE ?{yc} LIMIT ?", [like] + yp + [per_term]):
             add("advertisers", r["id"], r["name_raw"], " / ".join(x for x in (r["category_raw"], r["city_raw"]) if x), r["source"])
-        for r in con.execute("SELECT id,name_raw,role_raw,source FROM people "
-                             "WHERE lower(name_raw) LIKE ? LIMIT ?", (like, per_term)):
+        for r in q(f"SELECT pe.id,pe.name_raw,pe.role_raw,pe.source FROM people pe {JOIN.format(a='pe')} "
+                   f"WHERE (lower(pe.name_raw) LIKE ? OR lower(pe.role_raw) LIKE ?){yc} LIMIT ?", [like, like] + yp + [per_term]):
             add("people", r["id"], r["name_raw"], r["role_raw"], r["source"])
-        for r in con.execute("SELECT id,term_raw,kind,source FROM topics "
-                             "WHERE lower(term_raw) LIKE ? LIMIT ?", (like, per_term)):
+        for r in q(f"SELECT t.id,t.term_raw,t.kind,t.source FROM topics t {JOIN.format(a='t')} "
+                   f"WHERE lower(t.term_raw) LIKE ?{yc} LIMIT ?", [like] + yp + [per_term]):
             add("topics", r["id"], r["term_raw"], r["kind"], r["source"])
-        for r in con.execute("SELECT id,title_raw,kind,author_raw,printed_pages_raw,source FROM entries "
-                             "WHERE lower(title_raw) LIKE ? LIMIT ?", (like, per_term)):
+        for r in q(f"SELECT e.id,e.title_raw,e.kind,e.author_raw,e.printed_pages_raw,e.source FROM entries e {JOIN.format(a='e')} "
+                   f"WHERE (lower(e.title_raw) LIKE ? OR lower(e.author_raw) LIKE ?){yc} LIMIT ?", [like, like] + yp + [per_term]):
             add("entries", r["id"], r["title_raw"], " / ".join(x for x in (r["kind"], r["author_raw"], r["printed_pages_raw"]) if x), r["source"])
 
-    # when the question names a category (often in Chinese), add a small sample
+    # when the question names a category (often in Chinese), add a bounded sample
     for target in _intent_kinds(question.lower()):
         if isinstance(target, tuple):
-            table, kind = target
-            for r in con.execute("SELECT id,term_raw,kind,source FROM topics WHERE kind=? "
-                                 "ORDER BY term_raw LIMIT ?", (kind, sample)):
+            kind = target[1]
+            for r in q(f"SELECT t.id,t.term_raw,t.kind,t.source FROM topics t {JOIN.format(a='t')} "
+                       f"WHERE t.kind=?{yc} ORDER BY t.term_raw LIMIT ?", [kind] + yp + [sample]):
                 add("topics", r["id"], r["term_raw"], r["kind"], r["source"])
         elif target == "advertisers":
-            for r in con.execute("SELECT id,name_raw,category_raw,city_raw,source FROM advertisers "
-                                 "ORDER BY id LIMIT ?", (sample,)):
+            for r in q(f"SELECT a.id,a.name_raw,a.category_raw,a.city_raw,a.source FROM advertisers a {JOIN.format(a='a')} "
+                       f"WHERE 1=1{yc} ORDER BY a.id LIMIT ?", yp + [sample]):
                 add("advertisers", r["id"], r["name_raw"], " / ".join(x for x in (r["category_raw"], r["city_raw"]) if x), r["source"])
+        elif target == "editors":
+            for r in q(f"SELECT pe.id,pe.name_raw,pe.role_raw,pe.source FROM people pe {JOIN.format(a='pe')} "
+                       f"WHERE lower(pe.role_raw) LIKE '%editor%'{yc} ORDER BY pe.id LIMIT ?", yp + [sample]):
+                add("people", r["id"], r["name_raw"], r["role_raw"], r["source"])
         elif target == "people":
-            for r in con.execute("SELECT id,name_raw,role_raw,source FROM people ORDER BY id LIMIT ?", (sample,)):
+            for r in q(f"SELECT pe.id,pe.name_raw,pe.role_raw,pe.source FROM people pe {JOIN.format(a='pe')} "
+                       f"WHERE 1=1{yc} ORDER BY pe.id LIMIT ?", yp + [sample]):
                 add("people", r["id"], r["name_raw"], r["role_raw"], r["source"])
         elif target == "entries":
-            for r in con.execute("SELECT id,title_raw,kind,author_raw,printed_pages_raw,source FROM entries "
-                                 "ORDER BY id LIMIT ?", (sample,)):
+            for r in q(f"SELECT e.id,e.title_raw,e.kind,e.author_raw,e.printed_pages_raw,e.source FROM entries e {JOIN.format(a='e')} "
+                       f"WHERE 1=1{yc} ORDER BY e.id LIMIT ?", yp + [sample]):
                 add("entries", r["id"], r["title_raw"], " / ".join(x for x in (r["kind"], r["author_raw"], r["printed_pages_raw"]) if x), r["source"])
 
     return records
@@ -155,12 +190,12 @@ def ask_model(messages):
     The Week 5 demo's ask_model() returned fixtures/model-response.json for every
     photo. This one sends the retrieved rows to DeepSeek and returns the answer.
     """
-    payload = json.dumps({"model": MODEL, "messages": messages,
-                          "stream": False, "temperature": 0.2}).encode("utf-8")
+    payload = json.dumps({"model": MODEL, "messages": messages, "stream": False,
+                          "temperature": 0.2, "thinking": {"type": "disabled"}}).encode("utf-8")
     req = urllib.request.Request(
         API_URL, data=payload, method="POST",
         headers={"Content-Type": "application/json", "Authorization": f"Bearer {API_KEY}"})
-    with urllib.request.urlopen(req, timeout=90) as resp:
+    with urllib.request.urlopen(req, timeout=90, context=ssl_context()) as resp:
         data = json.load(resp)
     return data["choices"][0]["message"]["content"], data.get("model", MODEL)
 
@@ -176,6 +211,9 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path in ("/", "/index.html"):
             return self._send(200, (STATIC / "index.html").read_bytes(), "text/html; charset=utf-8")
+        if self.path == "/api/health":
+            body = json.dumps({"ok": True, "db": DB.is_file(), "key": bool(API_KEY)})
+            return self._send(200, body.encode(), "application/json; charset=utf-8")
         self._send(404, b"not found", "text/plain")
 
     def do_POST(self):

@@ -19,6 +19,9 @@
   h1 em{font-style:italic;color:var(--accent)}
   .lede{color:var(--soft);max-width:38em;margin:0 0 8px}
   .lede code{background:#e9e0cf;padding:1px 6px;border-radius:6px;font-size:14px}
+  .banner{display:none;margin:18px 0 0;background:var(--accent-soft);color:var(--accent);border:1px solid #e3c9c4;
+          border-radius:12px;padding:12px 16px;font-size:14.5px;line-height:1.5}
+  .banner code{background:#f6dcd8;padding:1px 6px;border-radius:6px}
 
   .ask{margin-top:28px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
   textarea{width:100%;min-height:96px;resize:vertical;border:1px solid var(--line);border-radius:12px;
@@ -72,6 +75,8 @@
   <h1>Ask <em>Miss Redding</em> about the Vogue archive</h1>
   <p class="lede">The 1892–1900 issues: advertisers, people, garments, materials, places, articles.
     The server pulls matching rows from <code>vogue.db</code> and a live DeepSeek model writes the answer with citations.</p>
+
+  <div id="banner" class="banner"></div>
 
   <section class="ask">
     <textarea id="q" placeholder="例如：Park &amp; Tilford 在这几期登过什么广告？／1893 年出现过哪些材料？／这两期里有什么花？（也可用英文）"></textarea>
@@ -135,7 +140,8 @@ async function ask(){
     });
     data = await res.json();
   } catch (err) {
-    $('statusText').textContent = '请求失败：' + err;
+    $('status').classList.remove('on');
+    showBanner('请求失败——请先运行 <code>python3 server.py</code>，再通过 http://localhost:8000 打开本页（直接打开 HTML 文件无法访问数据库和模型）。');
     go.disabled = false; return;
   }
 
@@ -168,6 +174,23 @@ async function ask(){
   go.disabled = false;
 }
 go.onclick = ask;
+
+function showBanner(msg){ const b = $('banner'); b.innerHTML = msg; b.style.display = 'block'; }
+
+(async function checkServer(){
+  if (location.protocol === 'file:') {
+    return showBanner('这个页面必须由服务器提供：先运行 <code>python3 server.py</code>，' +
+      '再用浏览器打开 http://localhost:8000 —— 直接双击 HTML 文件打不开数据库和模型。');
+  }
+  try {
+    const h = await (await fetch('/api/health')).json();
+    if (!h.key) showBanner('提示：服务器没有设置 <code>DEEPSEEK_API_KEY</code>，' +
+      '现在只会显示检索到的记录，不会调用模型。设置后重启服务器即可。');
+  } catch (e) {
+    showBanner('连不上服务器：请在 <code>vogue-app</code> 目录运行 <code>python3 server.py</code>，' +
+      '并打开 http://localhost:8000。');
+  }
+})();
 </script>
 </body>
 </html>
