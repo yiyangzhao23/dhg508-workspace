@@ -1,5 +1,11 @@
 [
  {"issue_no":1,"date_raw":"December 17, 1892","date_iso":"1892-12-17","date_basis":"printed masthead 'VOL. I., NO. 1 ... DECEMBER 17, 1892' and the archive citation header","volume":"I","page_count":36,"source_key":"vogue-1892-12-17","note":""},
  {"issue_no":2,"date_raw":"December 24, 1892","date_iso":"1892-12-24","date_basis":"archive citation header 'Vogue1. 2 (Dec 24, 1892)'; masthead date partly illegible in OCR ('DECEMBER 18g=')","volume":"I","page_count":28,"source_key":"vogue-1892-12-24","note":"Masthead date read as 1892 only from the archive header; the printed date line is badly OCR'd."},
- {"issue_no":3,"date_raw":"December 31, 1892","date_iso":"1892-12-31","date_basis":"archive citation header 'Vogue1. 3 (Dec 31, 1892)' and printed '31 DECEMBER, 18ga'","volume":"I","page_count":24,"source_key":"vogue-1892-12-31","note":""}
+ {"issue_no":3,"date_raw":"December 31, 1892","date_iso":"1892-12-31","date_basis":"archive citation header 'Vogue1. 3 (Dec 31, 1892)' and printed '31 DECEMBER, 18ga'","volume":"I","page_count":24,"source_key":"vogue-1892-12-31","note":""},
+ {"issue_no":4,"date_raw":"January 7, 1893","date_iso":"1893-01-07","date_basis":"archive citation header 'Vogue1. 4 (Jan 7, 1893)'","volume":"I","page_count":28,"source_key":"vogue-1893-01-07","note":""},
+ {"issue_no":8,"date_raw":"February 4, 1893","date_iso":"1893-02-04","date_basis":"archive citation header 'Vogue1. 8 (Feb 4, 1893)'","volume":"I","page_count":26,"source_key":"vogue-1893-02-04","note":""},
+ {"issue_no":15,"date_raw":"March 25, 1893","date_iso":"1893-03-25","date_basis":"archive citation header 'Vogue1. 15 (Mar 25, 1893)'","volume":"I","page_count":40,"source_key":"vogue-1893-03-25","note":""},
+ {"issue_no":null,"date_raw":"July 5, 1900","date_iso":"1900-07-05","date_basis":"archive citation header 'Vogue, Jul 05, 1900. C1'","volume":"","page_count":24,"source_key":"vogue-1900-07-05","note":"The ProQuest citation style used for this issue gives the date and printed page but no volume or issue number."},
+ {"issue_no":null,"date_raw":"July 19, 1900","date_iso":"1900-07-19","date_basis":"archive citation header 'Vogue, Jul 19, 1900. C1'","volume":"","page_count":24,"source_key":"vogue-1900-07-19","note":"The ProQuest citation style used for this issue gives the date and printed page but no volume or issue number."},
+ {"issue_no":null,"date_raw":"August 23, 1900","date_iso":"1900-08-23","date_basis":"archive citation header '(1900, Aug 23). Vogue, 16, ...'","volume":"16","page_count":24,"source_key":"vogue-1900-08-23","note":""}
 ]

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check 20 random rows of vogue-1892.db against the originals.
+"""Check 20 random rows of vogue.db against the originals.
 
 The "original" for a row is the OCR transcription of the scanned page it points
 to (artifacts/pages/<issue>/page-NNN.txt), which is the machine reading of the
@@ -17,14 +17,27 @@ import random
 import re
 import sqlite3
 
+from parse_headers import CITE_1892, CITE_MODERN, CITE_1900
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-DB = os.path.join(ROOT, "vogue-1892.db")
+DB = os.path.join(ROOT, "vogue.db")
 DATA = os.path.join(ROOT, "research", "data")
 PAGES = os.path.join(ROOT, "artifacts", "pages")
 OUT = os.path.join(ROOT, "research", "checks.md")
 SEED = 2026
 N = 20
+
+ISSUES = [it["date_iso"] for it in json.load(open(os.path.join(DATA, "issues.json"), encoding="utf-8"))]
+
+
+def reparse_printed(citation: str) -> str:
+    """Re-derive the printed page label from a stored citation line (any style)."""
+    for rx in (CITE_1892, CITE_MODERN, CITE_1900):
+        m = rx.search(citation or "")
+        if m:
+            return re.sub(r"\s+", " ", m.group("pages")).strip()
+    return ""
 
 
 def norm(s):
@@ -38,7 +51,7 @@ def norm_name(s):
 def main() -> None:
     # rebuild source text for every scan page
     text = {}
-    for issue in ["1892-12-17", "1892-12-24", "1892-12-31"]:
+    for issue in ISSUES:
         for p in os.listdir(os.path.join(PAGES, issue)):
             if p.endswith(".txt"):
                 n = int(p[5:8])
@@ -75,8 +88,7 @@ def main() -> None:
         cause = fix = "—"
         if tid == "entries" and extra:
             stored = con.execute("SELECT title_raw, author_raw, printed_pages_raw, citation_raw FROM entries WHERE id=?", (rid,)).fetchone()
-            m = re.search(r"Vogue1\.\s*\d+\s*\([^;]+\)\s*:\s*([^;]+);", stored[3] or "")
-            printed = (m.group(1).strip() if m else "")
+            printed = reparse_printed(stored[3])
             parse_ok = norm(printed) == norm(stored[2])
             ok = ok and parse_ok
             detail = "grounding" + ("+parse" if parse_ok else "+parse FAIL")

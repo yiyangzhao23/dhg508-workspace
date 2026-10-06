@@ -120,3 +120,15 @@ WHERE t.id = 150;
 ```
 
 > 注：`issues` 是表名，join 时用别名（`iss`），免得与列名混淆。
+
+## 11. 按性别列人物（`gender` 是推断值，务必连 `gender_basis` 一起给出）
+
+```sql
+SELECT id, name_raw, gender, gender_basis, role_raw, source
+FROM people
+WHERE gender = 'woman'          -- 或 'man'；'unknown' 为未能判定
+ORDER BY id;
+```
+
+> 库里 560 人中：man 175、woman 210、unknown 175。性别由**称谓 / 身份 / 名字**推断，
+> 报上从未印出；引用时说明依据（`gender_basis`），不可当作原文事实。

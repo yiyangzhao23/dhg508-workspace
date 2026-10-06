@@ -12,7 +12,16 @@
    需要逐条核对。
 6. **广告类别词是抽取时给的，不是原印** —— `advertisers.category_raw` 来自阅读判断，
    不是印刷原文；是否应改名（如 `category_inferred`）以免误导？
-7. **git 与大数据** —— `artifacts/`（页图、OCR）已被忽略，`vogue-1892.db` 体积很小可入库；
+7. **git 与大数据** —— `artifacts/`（页图、OCR）已被忽略，`vogue.db` 体积很小可入库；
    但 PDF 原件约 130 MB，是否保持忽略并仅在 README 说明获取方式？
-8. **`pages.matched=0` 的 18 个续页** —— 它们属于上一页的条目；是否要在 `entries` 里
-   为续页建显式的「belongs_to」外键？
+8. **`pages.matched=0` 的续页** —— 它们属于上一页的条目；是否要在 `entries` 里
+   为续页建显式的「belongs_to」外键？（新增 6 期后续页由 18 增至 48。）
+9. **1916 与 1920 暂未纳入** —— 1916 每期约 150 页（3 期近 450 页，OCR 与页图成本过高）；
+   1920 是**法文版《Vogue》Paris**，扫描**完全没有档案引用头**，`entries`/印刷页无法抽取。
+   是否把它们另立为子档案（只做页面 + 主题词）？
+10. **1900 年 7 月的卷号** —— 引用头只给日期与页号；8 月给 `Vogue, 16`。7 月是否同属
+    Vol. 16？需要外部书目（或另一年的连续卷号）核对后再补，暂留空。
+11. **1900 的 `entries` 标题** —— 取自 ProQuest 页面显示行，No-author 条目会把标题
+   重复一遍（如 `Descriptions Of Fashions Descriptions of fashions`）。是清洗还是照存？
+12. **改名后的一致性** —— 项目/skill 已由 `vogue-1892` 改为 `vogue`，`source_key` 仍保留
+   `vogue-1892-12-17` 形式（含完整日期，作为稳定主键）。是否需要同步改名？

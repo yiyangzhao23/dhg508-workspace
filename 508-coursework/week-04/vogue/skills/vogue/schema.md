@@ -43,7 +43,11 @@ citation_raw, source, note`
 广告主。`id, page_id→pages.id, name_raw, name_norm, category_raw, address_raw, city_raw, source, note`
 
 ### people（560）
-人物。`id, page_id→pages.id, name_raw, name_norm, role_raw, source, note`
+人物。`id, page_id→pages.id, name_raw, name_norm, role_raw, gender, gender_basis, source, note`
+
+- `gender`：`man` / `woman` / `unknown`——**由名字推断，报上从未印出**；`gender_basis` 写明依据
+  （`honorific "Mrs."` / `role "actress"` / `given name "Thomas"`，或空）。推断值为便利而设，
+  引用时应连同 `gender_basis` 一起说明，勿当作原文事实。
 
 ### topics（573）
 可检索的主题。`id, page_id→pages.id, term_raw, kind, source, note`

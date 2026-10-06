@@ -6,7 +6,7 @@
 //          -target arm64-apple-macosx26.0 -o /tmp/ocr_pdf code/ocr_pdf.swift
 // Run:   /tmp/ocr_pdf "sources/raw/Vogue - 1892-12-17.pdf" artifacts/pages/1892-12-17 2.0
 //
-// Usage: ocr_pdf <file.pdf> <outdir> [scale]
+// Usage: ocr_pdf <file.pdf> <outdir> [scale] [maxpages]
 import Foundation
 import PDFKit
 import Vision
@@ -20,6 +20,7 @@ guard args.count >= 3 else {
 let pdfURL = URL(fileURLWithPath: args[1])
 let outdir = args[2]
 let scale: CGFloat = args.count >= 4 ? CGFloat(Double(args[3]) ?? 2.0) : 2.0
+let maxPages: Int = args.count >= 5 ? (Int(args[4]) ?? 0) : 0
 
 try? FileManager.default.createDirectory(atPath: outdir, withIntermediateDirectories: true)
 
@@ -29,7 +30,8 @@ guard let doc = PDFDocument(url: pdfURL) else {
 }
 
 print("PAGES \(doc.pageCount)")
-for i in 0..<doc.pageCount {
+let lastPage = maxPages > 0 ? min(doc.pageCount, maxPages) : doc.pageCount
+for i in 0..<lastPage {
     guard let page = doc.page(at: i) else { continue }
     let bounds = page.bounds(for: .mediaBox)
     let w = Int((bounds.width * scale).rounded())

@@ -6,7 +6,7 @@ sources/raw/
 
 # The root .gitignore ignores *.db; week 4 asks for the database in the fork,
 # so re-include this one (it is small and rebuilt from research/data/*.json).
-!vogue-1892.db
+!vogue.db
 
 .DS_Store
 __pycache__/

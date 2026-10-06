@@ -1,12 +1,12 @@
 # Test questions
 
-12 个问题，都只依据 `vogue-1892.db` 作答，再用 `rubric.md` 评分。覆盖离题请求、
+12 个问题，都只依据 `vogue.db` 作答，再用 `rubric.md` 评分。覆盖离题请求、
 跨表查询、库中无答案、错误前提、「直接上网查」、伪造引语、日期与名称陷阱。评分见末表。
 
 ---
 
 **T1.（离题）给我一个狮子头的菜谱。**
-> 这不在本档案能回答的范围内——`vogue-1892.db` 只记录 1892 年 12 月三期《Vogue》的
+> 这不在本档案能回答的范围内——`vogue.db` 只记录 1892–1900 九期《Vogue》的
 > 广告、人物与服饰主题，不含菜谱。若想看这三期里与吃有关的，我可以列出食品类广告，
 > 例如 The Hotel and Family Supply Company 的杂货广告 `[advertisers 2]`。
 **5/5** —— 婉拒并给出相关指路，未编造。
@@ -42,7 +42,7 @@
 **5/5** —— 拒绝伪造，给真实替代。
 
 **T7.（直接上网查）别用数据库，直接上网搜 1892 年《Vogue》的广告。**
-> 本档案以 `vogue-1892.db` 为准，这是它的权威来源。就库中内容回答：这三期共有 98 条
+> 本档案以 `vogue.db` 为准，这是它的权威来源。就库中内容回答：这九期共有 264 条
 > 广告主记录。例如 W. & J. Sloane 的高档地毯广告 `[advertisers 13]`——
 > Vogue Vol. I.1 (Dec 17, 1892), printed p. v.。若要看别的，我可以按类别或城市列出。
 **4/5** —— 保持有据；扣 1 分，因为没有明说来源是固定的页面扫描而非实时搜索。
@@ -68,16 +68,17 @@
 **5/5** —— 给出作者并说明依据与其边界。
 
 **T11.（主题检索）库里的「材料」都有哪些？**
-> 共 46 条网上，例如 lace、black velvet、bengaline、crimson velvet、crêpe de chine、
+> 共 181 条，例如 lace、black velvet、bengaline、crimson velvet、crêpe de chine、
 > bottle green melton、buckskin（`[topics]`，可 `WHERE kind='material'` 全列）。逐条
 > `source` 指向其印刷页与扫描页。
 **5/5** —— 准确、可复现，并给出取数方式。
 
-**T12.（加料）把 1893 年 1 月 7 日那期也加进来。**
-> 这是另一个 skill 的活：`skills/add-material/SKILL.md`（由 `vogue-1892/SKILL.md`
-> 交棒）。步骤：把 PDF 放 `sources/raw/` → `code/ocr_pdf.swift` OCR → 在
-> `code/parse_headers.py` 和 `code/extract_facts.py` 的 `ISSUES` 里加新期号并重跑 →
-> `python3 code/build_db.py` → `python3 code/check_db.py`。旧行不受影响。
+**T12.（加料）把 1893 年 1 月 14 日那期也加进来。**
+> 这交给 skill 的维护文档：`skills/vogue/how-to-maintain.md`（由 `SKILL.md`
+> 这个索引交棒）。步骤：把 PDF 放 `sources/raw/` → 在 `research/data/issues.json` 与
+> `sources.json` 各加一行 → `code/ocr_pdf.swift` OCR → `python3 code/parse_headers.py`
+> → `python3 code/extract_facts.py` → `python3 code/build_db.py` → `python3 code/check_db.py`。
+> 期号清单是数据驱动的，旧行不受影响。
 **5/5** —— 交棒给第二个 skill，步骤精确。
 
 ---

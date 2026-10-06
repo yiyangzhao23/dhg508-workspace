@@ -31,8 +31,10 @@ DATA = os.path.join(ROOT, "research", "data")
 PAGES = os.path.join(ROOT, "artifacts", "pages")
 HEADERS = os.path.join(ROOT, "artifacts", "headers.json")
 CANDS = os.path.join(ROOT, "artifacts", "candidates")
+ISSUES_JSON = os.path.join(DATA, "issues.json")
 
-ISSUES = ["1892-12-17", "1892-12-24", "1892-12-31"]
+ISSUES = [it["date_iso"] for it in json.load(open(ISSUES_JSON, encoding="utf-8"))]
+ISSUE_META = {it["date_iso"]: it for it in json.load(open(ISSUES_JSON, encoding="utf-8"))}
 ROMAN = re.compile(r"^[ivxl]+$")
 
 
@@ -69,7 +71,7 @@ def main() -> None:
     pages, entries = [], []
     pid = 0
     for issue in ISSUES:
-        issue_no = next(r["issue_no"] for (i, p), r in headers.items() if i == issue and r.get("matched"))
+        issue_no = ISSUE_META[issue]["issue_no"]
         for path in sorted(glob.glob(os.path.join(PAGES, issue, "page-*.txt"))):
             n = int(os.path.basename(path)[5:8])
             text = open(path, encoding="utf-8").read()
