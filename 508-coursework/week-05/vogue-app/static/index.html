@@ -3,127 +3,191 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ask Miss Redding · Vogue 1892–1900</title>
+<title>Vogue · Ask Miss Redding (1892–1900)</title>
 <style>
   :root{
-    --paper:#f3ede1; --card:#fbf7ef; --ink:#221f1a; --soft:#756c5e; --line:#ddd2bd;
-    --accent:#7a1f2b; --accent-soft:#f2e2df; --ok:#2f6b4f; --ok-soft:#e3efe7;
-    --serif:"Iowan Old Style","Palatino Linotype",Georgia,"Songti SC",serif;
-    --sans:"Avenir Next","Helvetica Neue","PingFang SC",system-ui,sans-serif;
+    --paper:#efe3c6; --card:#f8f0da; --card-2:#f2e7cd;
+    --ink:#2a2118; --soft:#7a6a4f; --sepia:#8a7350;
+    --gold:#b08d4f; --gold-2:#cdb47e; --line:#c9b48c;
+    --wine:#7c2230; --wine-2:#5e1822; --wine-soft:#f0dbd8;
+    --display:"Didot","Bodoni 72","Hoefler Text","Playfair Display","Times New Roman",serif;
+    --serif:"Iowan Old Style","Palatino Linotype","Palatino",Georgia,"Songti SC","Times New Roman",serif;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.65 var(--sans)}
-  .wrap{max-width:920px;margin:0 auto;padding:48px 28px 64px}
-  .kicker{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--soft)}
-  h1{font-family:var(--serif);font-size:46px;line-height:1.08;margin:10px 0 6px;letter-spacing:-.5px}
-  h1 em{font-style:italic;color:var(--accent)}
-  .lede{color:var(--soft);max-width:38em;margin:0 0 8px}
-  .lede code{background:#e9e0cf;padding:1px 6px;border-radius:6px;font-size:14px}
-  .banner{display:none;margin:18px 0 0;background:var(--accent-soft);color:var(--accent);border:1px solid #e3c9c4;
-          border-radius:12px;padding:12px 16px;font-size:14.5px;line-height:1.5}
-  .banner code{background:#f6dcd8;padding:1px 6px;border-radius:6px}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; color:var(--ink); font:16.5px/1.72 var(--serif);
+    background-color:var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23b08d4f' stroke-width='1' opacity='.15'%3E%3Cpath d='M32 8c8 8 8 16 0 24-8-8-8-16 0-24z'/%3E%3Cpath d='M32 56c8-8 8-16 0-24-8 8-8 16 0 24z'/%3E%3Cpath d='M8 32c8 8 16 8 24 0-8-8-16-8-24 0z'/%3E%3Cpath d='M56 32c-8 8-16 8-24 0 8-8 16-8 24 0z'/%3E%3Ccircle cx='32' cy='32' r='2' fill='%23b08d4f' stroke='none'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:5;
+              box-shadow:inset 0 0 150px rgba(70,45,20,.20)}
 
-  .ask{margin-top:28px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
-  textarea{width:100%;min-height:96px;resize:vertical;border:1px solid var(--line);border-radius:12px;
-           padding:14px;font:17px/1.5 var(--sans);background:#fff;color:var(--ink)}
-  textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
-  .row{display:flex;gap:12px;align-items:center;margin-top:12px;flex-wrap:wrap}
-  .btn{appearance:none;border:0;border-radius:999px;background:var(--ink);color:#fff;font:600 16px var(--sans);
-       padding:13px 26px;min-height:48px;cursor:pointer}
-  .btn:hover{background:#000}
-  .btn:disabled{opacity:.5;cursor:default}
-  .hint{color:var(--soft);font-size:13px;margin-left:auto}
-  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-  .chip{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:7px 14px;
-        font:14px var(--sans);cursor:pointer}
-  .chip:hover{border-color:var(--accent);color:var(--accent)}
+  .sheet{max-width:960px;margin:34px auto;position:relative;background:var(--card);
+         border:1px solid var(--gold);box-shadow:0 20px 60px rgba(60,40,20,.20), 0 0 0 1px rgba(255,255,255,.5) inset}
+  .sheet::before{content:"";position:absolute;inset:8px;border:1px solid var(--gold-2);pointer-events:none}
+  .corner{position:absolute;color:var(--gold);font-size:17px;line-height:1;z-index:2;opacity:.85}
+  .c-tl{top:3px;left:8px;transform:rotate(-45deg)} .c-tr{top:3px;right:8px;transform:rotate(45deg)}
+  .c-bl{bottom:3px;left:8px;transform:rotate(-135deg)} .c-br{bottom:3px;right:8px;transform:rotate(135deg)}
+  .inner{padding:42px 46px 54px;position:relative}
 
-  .status{margin-top:22px;color:var(--soft);display:none}
+  .kicker{font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--sepia);text-align:center}
+  .masthead{text-align:center;margin-top:8px}
+  .masthead h1{font-family:var(--display);font-weight:400;font-size:82px;line-height:.98;letter-spacing:.16em;
+               text-transform:uppercase;margin:6px 0 0;color:var(--ink)}
+  .masthead .tagline{font-style:italic;color:var(--soft);font-size:18px;margin-top:8px}
+  .masthead .tagline em{font-style:italic;color:var(--wine)}
+
+  .orn{display:flex;align-items:center;gap:16px;margin:24px 0;color:var(--gold-2)}
+  .orn::before,.orn::after{content:"";height:1px;flex:1;
+    background:linear-gradient(90deg,transparent,var(--gold-2) 20%,var(--gold-2) 80%,transparent)}
+  .orn span{font-size:18px;color:var(--gold);letter-spacing:.4em}
+
+  .lede{color:var(--soft);max-width:40em;margin:14px auto 0;text-align:center;font-size:15.5px}
+  .lede code{font-family:var(--serif);background:#eaddbe;border:1px solid var(--line);padding:0 5px;border-radius:2px;font-size:13.5px}
+
+  .banner{display:none;margin:0 auto 4px;max-width:100%;background:var(--wine-soft);color:var(--wine);
+          border:1px solid #dcb7b2;padding:12px 16px;font-size:14.5px;line-height:1.55}
+  .banner code{background:#e8ccc9;padding:0 5px;border-radius:2px}
+
+  .ask{background:linear-gradient(180deg,var(--card-2),#eee0c0);border:1px solid var(--line);
+       padding:20px 20px 18px;position:relative;margin-top:20px;box-shadow:0 1px 0 #fff inset}
+  .ask::after{content:"";position:absolute;inset:6px;border:1px solid rgba(176,141,79,.35);pointer-events:none}
+  textarea{width:100%;min-height:92px;resize:vertical;background:#fffdf5;color:var(--ink);
+           border:1px solid var(--line);border-radius:2px;padding:14px;font:16.5px/1.55 var(--serif);
+           box-shadow:0 1px 0 #fff inset}
+  textarea:focus{outline:1px solid var(--wine);outline-offset:1px}
+  .row{display:flex;gap:14px;align-items:center;margin-top:14px;flex-wrap:wrap}
+  .btn{appearance:none;cursor:pointer;font-family:var(--serif);font-size:14px;letter-spacing:.16em;
+       text-transform:uppercase;color:#f6e7cf;background:var(--wine);border:1px solid var(--wine-2);
+       border-radius:2px;padding:12px 32px;min-height:46px;box-shadow:0 2px 0 rgba(94,24,34,.5)}
+  .btn:hover{background:var(--wine-2)}
+  .btn:disabled{opacity:.55;cursor:default}
+  .hint{color:var(--soft);font-size:12.5px;letter-spacing:.04em;margin-left:auto;font-style:italic}
+  .chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
+  .chip{cursor:pointer;font-family:var(--serif);font-size:13.5px;color:var(--ink);background:#fdf8ec;
+        border:1px solid var(--line);border-radius:2px;padding:7px 14px;box-shadow:0 1px 0 #fff inset}
+  .chip:hover{border-color:var(--wine);color:var(--wine)}
+
+  .status{margin-top:24px;color:var(--soft);display:none;font-style:italic;text-align:center}
   .status.on{display:block}
-  .status i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--accent);
-            margin-right:8px;animation:pulse 1s ease-in-out infinite}
-  @keyframes pulse{50%{opacity:.25}}
+  .status i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--wine);
+            margin-right:9px;animation:pulse 1s ease-in-out infinite}
+  @keyframes pulse{50%{opacity:.2}}
 
   .result{display:none;margin-top:26px}
-  .badge{display:inline-flex;gap:8px;align-items:center;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
-         background:var(--ok-soft);color:var(--ok);border-radius:999px;padding:6px 13px}
-  .badge.warn{background:var(--accent-soft);color:var(--accent)}
-  .answer{font-family:var(--serif);font-size:21px;line-height:1.6;margin:16px 0 6px;white-space:pre-wrap}
-  .answer .cite{font-family:var(--sans);font-size:13px;color:var(--accent);background:var(--accent-soft);
-                border-radius:6px;padding:1px 6px;white-space:nowrap}
-  .warn-note{background:var(--accent-soft);color:var(--accent);border-radius:10px;padding:10px 14px;font-size:14px;margin-top:12px}
+  .seal{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:10.5px;letter-spacing:.2em;
+        text-transform:uppercase;color:#f6e7cf;background:var(--wine);border:1px solid var(--wine-2);
+        border-radius:50%/60%;padding:7px 16px;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+  .badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:10.5px;letter-spacing:.2em;
+         text-transform:uppercase;color:#f6e7cf;background:var(--wine);border:1px solid var(--wine-2);
+         border-radius:2px;padding:6px 15px}
+  .badge.warn{background:#8a6a2f;border-color:#6b521f}
 
+  .answer{font-family:var(--serif);font-size:21px;line-height:1.8;margin:16px 0 4px;white-space:pre-wrap;
+          color:#241c14;padding-top:2px}
+  .answer::first-letter{font-family:var(--display);font-size:3.5em;line-height:.8;float:left;
+                        padding:4px 10px 0 0;color:var(--wine)}
+  .warn-note{background:var(--wine-soft);color:var(--wine);border:1px solid #dcb7b2;padding:10px 14px;font-size:14px;margin-top:12px}
+
+  .cite{font-family:var(--serif);font-size:12.5px;letter-spacing:.03em;color:var(--wine);background:var(--wine-soft);
+        border:1px solid #e2c4c0;border-radius:2px;padding:1px 6px;white-space:nowrap}
   a.cite{text-decoration:none}
-  a.cite:hover{text-decoration:underline}
+  a.cite:hover{background:var(--wine);color:#f6e7cf}
   a.shot-link{text-decoration:none}
   .cite-thumb{display:inline-block;vertical-align:middle;width:30px;height:40px;object-fit:cover;
-              border:1px solid var(--line);border-radius:4px;margin:0 6px 2px 4px;background:#e9e2d4}
-  .gal-title{font-family:var(--serif);font-size:22px;font-weight:600;margin:28px 0 8px}
-  .gal-sub{color:var(--soft);font-size:13.5px;margin:0 0 12px}
-  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-  .gallery figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px;scroll-margin-top:18px}
-  .gallery img{display:block;width:100%;border-radius:8px;background:#e9e2d4;aspect-ratio:3/4;object-fit:cover}
-  .gallery figcaption{font-size:11.5px;color:var(--soft);margin-top:6px;line-height:1.45}
-  .gallery figure:target{outline:2px solid var(--accent);outline-offset:2px}
+              border:1px solid var(--gold);border-radius:1px;margin:0 6px 2px 5px;background:#e9dcc0;
+              box-shadow:0 1px 2px rgba(60,40,20,.25)}
 
-  details.records{margin-top:26px;border-top:1px solid var(--line);padding-top:14px}
-  details.records summary{cursor:pointer;color:var(--soft);font-size:14px;letter-spacing:.06em}
-  table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+  .gal-title{font-family:var(--serif);font-size:12.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--sepia);
+             text-align:center;border-bottom:1px solid var(--line);padding-bottom:7px;margin:30px 0 8px}
+  .gal-title::before{content:"❦ ";} .gal-title::after{content:" ❦"}
+  .gal-sub{color:var(--soft);font-size:13px;margin:0 0 14px;text-align:center;font-style:italic}
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+  .gallery figure{margin:0;background:#fbf5e6;border:1px solid var(--gold);padding:8px;scroll-margin-top:18px;
+                  box-shadow:0 1px 0 #fff inset, 0 1px 3px rgba(60,40,20,.12)}
+  .gallery img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;background:#e9dcc0;border:1px solid #e2d2a8}
+  .gallery figcaption{font-size:11.5px;color:var(--soft);margin-top:7px;line-height:1.5;text-align:center;font-style:italic}
+  .gallery figure:target{border-color:var(--wine);box-shadow:0 0 0 2px var(--wine-soft)}
+
+  details.records{margin-top:30px;border-top:1px solid var(--line);padding-top:16px}
+  details.records summary{cursor:pointer;color:var(--sepia);font-size:12px;letter-spacing:.22em;text-transform:uppercase}
+  table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}
   th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);font-weight:600}
-  td.id{font-family:var(--sans);color:var(--accent);white-space:nowrap}
+  th{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--sepia);font-weight:600}
+  tbody tr:hover{background:rgba(176,141,79,.09)}
+  td.id{font-family:var(--serif);color:var(--wine);white-space:nowrap}
   td.src{color:var(--soft);font-size:12.5px}
-  .empty{color:var(--soft)}
-  footer{margin-top:46px;padding-top:16px;border-top:1px solid var(--line);color:var(--soft);font-size:13px;
-         display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-  @media (max-width:600px){
-    .wrap{padding:30px 18px 48px} h1{font-size:33px} .answer{font-size:19px}
+  .empty{color:var(--soft);font-style:italic}
+
+  footer{position:relative;margin-top:42px;padding-top:18px;border-top:1px solid var(--line);color:var(--soft);font-size:12px;
+         letter-spacing:.04em;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-style:italic}
+  footer::before{content:"❦";position:absolute;top:-13px;left:50%;transform:translateX(-50%);color:var(--gold);background:var(--card);padding:0 12px}
+
+  @media (max-width:640px){
+    .sheet{margin:0;border-left:0;border-right:0}
+    .inner{padding:28px 20px 40px}
+    .masthead h1{font-size:52px}
+    .answer{font-size:19px}
     .hint{display:none} .btn{width:100%}
+    .gallery{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+    footer::before{display:none}
   }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="kicker">DHG508 · Week 5 · vogue.db behind it</div>
-  <h1>Ask <em>Miss Redding</em> about the Vogue archive</h1>
-  <p class="lede">The 1892–1900 issues: advertisers, people, garments, materials, places, articles.
-    The server pulls matching rows from <code>vogue.db</code> and a live DeepSeek model writes the answer with citations.</p>
+<main class="sheet">
+  <span class="corner c-tl">❧</span><span class="corner c-tr">❧</span>
+  <span class="corner c-bl">❧</span><span class="corner c-br">❧</span>
+  <div class="inner">
+    <div class="kicker">The Vogue Archive · MDCCCXCII–MCM</div>
+    <header class="masthead">
+      <h1>Vogue</h1>
+      <div class="tagline">Ask <em>Miss Redding</em> about the issues of 1892–1900</div>
+    </header>
 
-  <div id="banner" class="banner"></div>
+    <div class="orn"><span>❦</span></div>
 
-  <section class="ask">
-    <textarea id="q" placeholder="例如：Park &amp; Tilford 在这几期登过什么广告？／1893 年出现过哪些材料？／这两期里有什么花？（也可用英文）"></textarea>
-    <div class="row">
-      <button class="btn" id="go" type="button">Ask</button>
-      <span class="hint">⌘/Ctrl + Enter</span>
-    </div>
-    <div class="chips">
-      <button class="chip" type="button">Park &amp; Tilford 登过什么广告？</button>
-      <button class="chip" type="button">1893 年出现过哪些材料？</button>
-      <button class="chip" type="button">谁主编了 Vogue？</button>
-      <button class="chip" type="button">库里记了哪些花卉？</button>
-    </div>
-  </section>
+    <p class="lede">Advertisers, people, garments, materials, places and articles from the issues
+      of 1892–1900 — each with the printed page and the scan on which it appears.</p>
 
-  <div class="status" id="status"><i></i><span id="statusText">检索数据库，并请 Miss Redding 作答…</span></div>
+    <div id="banner" class="banner"></div>
 
-  <section class="result" id="result">
-    <span class="badge" id="badge">live model</span>
-    <div class="answer" id="answer"></div>
-    <div id="warn"></div>
-    <div id="gallery"></div>
+    <section class="ask">
+      <textarea id="q" placeholder="例如：Park &amp; Tilford 在这几期登过什么广告？／1893 年出现过哪些材料？／谁主编了 Vogue？／库里记了哪些花卉？（也可用英文）"></textarea>
+      <div class="row">
+        <button class="btn" id="go" type="button">Ask Miss Redding</button>
+        <span class="hint">⌘/Ctrl + Enter</span>
+      </div>
+      <div class="chips">
+        <button class="chip" type="button">Park &amp; Tilford 登过什么广告？</button>
+        <button class="chip" type="button">1893 年出现过哪些材料？</button>
+        <button class="chip" type="button">谁主编了 Vogue？</button>
+        <button class="chip" type="button">库里记了哪些花卉？</button>
+      </div>
+    </section>
 
-    <details class="records" id="records" open>
-      <summary id="recordsSummary">Archive records used</summary>
-      <div id="recordsBody"></div>
-    </details>
-  </section>
+    <div class="status" id="status"><i></i><span id="statusText">翻检旧刊，Miss Redding 正在查证…</span></div>
 
-  <footer>
-    <span>browser → server.py → vogue.db → DeepSeek (deepseek-flash) → back</span>
-    <span>9 issues · 254 pages · 1876 rows</span>
-  </footer>
-</div>
+    <section class="result" id="result">
+      <span class="badge" id="badge">Miss Redding</span>
+      <div class="answer" id="answer"></div>
+      <div id="warn"></div>
+      <div id="gallery"></div>
+
+      <details class="records" id="records" open>
+        <summary id="recordsSummary">所据档案记录</summary>
+        <div id="recordsBody"></div>
+      </details>
+    </section>
+
+    <footer>
+      <span>Vogue · New York</span>
+      <span>MDCCCXCII – MCM</span>
+    </footer>
+  </div>
+</main>
 
 <script>
 const $ = id => document.getElementById(id);
@@ -138,7 +202,7 @@ function escapeHtml(s){ const d = document.createElement('div'); d.textContent =
 let recordIndex = {};
 let inlineShown = new Set();
 function withCites(text){
-  return escapeHtml(text).replace(/\[([a-z]+)\s+(\d+)\]/gi, (m, t, n) => {
+  const html = escapeHtml(text).replace(/\[([a-z]+)\s+(\d+)\]/gi, (m, t, n) => {
     const r = recordIndex[(t + ' ' + n).toLowerCase()];
     if (!r || !r.image) return `<span class="cite">[${t} ${n}]</span>`;
     const cite = `<a class="cite" href="#img-${r.issue}-${r.page}" title="看扫描页 scan ${r.page}">[${t} ${n}]</a>`;
@@ -150,6 +214,8 @@ function withCites(text){
                   `<img class="cite-thumb" loading="lazy" src="${r.image}" alt="scan ${r.page}" ` +
                   `onerror="this.parentNode.remove()"></a>`;
   });
+  // light markdown the model sometimes emits
+  return html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/__([^_]+)__/g, '<strong>$1</strong>');
 }
 
 async function ask(){
@@ -158,7 +224,7 @@ async function ask(){
   go.disabled = true;
   $('result').style.display = 'none';
   $('status').classList.add('on');
-  $('statusText').textContent = '检索数据库，并请 Miss Redding 作答…';
+  $('statusText').textContent = '翻检旧刊，Miss Redding 正在查证…';
 
   let data;
   try {
@@ -180,7 +246,8 @@ async function ask(){
 
   const live = !!data.answer;
   const badge = $('badge');
-  badge.textContent = live ? ('live model · ' + (data.model || 'deepseek')) : 'records only (no model answer)';
+  badge.textContent = live ? 'Miss Redding 亲自作复' : '仅陈列档案（未拟答）';
+  badge.title = live ? ('model: ' + (data.model || 'deepseek')) : 'DEEPSEEK_API_KEY not set';
   badge.className = 'badge' + (live ? '' : ' warn');
 
   $('answer').innerHTML = live
@@ -203,7 +270,7 @@ async function ask(){
       </figure>`).join('')}</div>` : '';
 
   const recs = data.records || [];
-  $('recordsSummary').textContent = `Archive records used (${recs.length})`;
+  $('recordsSummary').textContent = `所据档案记录（${recs.length}）`;
   $('recordsBody').innerHTML = recs.length ? `
     <table>
       <thead><tr><th>row</th><th>value</th><th>detail</th><th>source</th></tr></thead>
