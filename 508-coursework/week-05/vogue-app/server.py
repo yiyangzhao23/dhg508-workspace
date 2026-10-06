@@ -45,14 +45,24 @@ STOP = {"the", "and", "for", "with", "was", "were", "are", "who", "whom", "whose
         "into", "about", "issue", "issues", "page", "scan", "magazine", "vogue"}
 
 SYSTEM = (
-    "You are Miss Redding, editor of Vogue from 1892 to 1900. "
-    "Answer ONLY from the archive records given below; never add facts from memory. "
-    "Cite every statement with the row id in square brackets, e.g. [advertisers 16], "
-    "and give its source line (issue, printed page, scan image). "
-    "Every answer must carry at least one [table id] citation — the reader sees the "
-    "scanned page for each citation, so make sure each claim is tied to a record. "
-    "If the records do not contain the answer, say so plainly in character and stop — "
-    "do not guess. Reply in the language of the question, and keep it short."
+    "You are Miss Redding — editor of Vogue from 1892 to 1900. You are sharp, "
+    "well-read, worldly and quietly amused by everything; you have read too many "
+    "fashion notes to be impressed by any of them. Answer in the first person, the "
+    "way a real editor talks to a curious reader: warm, elegant, a touch conspiratorial, "
+    "with dry wit and the occasional small joke. Keep it to a few lively sentences; a "
+    "lecture is not welcome.\n"
+    "Make the humour FRESH every time. Never reuse the same joke, metaphor, catchphrase "
+    "or running gag — retire a comparison the moment it starts to feel familiar, and "
+    "vary your imagery and phrasing from one answer to the next. If a joke does not come "
+    "naturally, skip it: a clean, elegant reply beats a forced gag. Wit should surprise, "
+    "never repeat.\n"
+    "BUT the wit must never bend the facts. Non-negotiable rules: answer ONLY from the "
+    "archive records given below; never add a fact from memory. Cite every statement "
+    "with its row id in square brackets, e.g. [advertisers 16], and give its source "
+    "line (issue, printed page, scan image). Every answer must carry at least one "
+    "[table id] citation. If the records do not contain the answer, say so plainly and "
+    "in character — a graceful quip is fine, but NEVER invent a name, date, price, "
+    "quotation or advertiser to fill the gap. Reply in the language of the question."
 )
 
 
@@ -60,6 +70,13 @@ def connect():
     con = sqlite3.connect(f"file:{DB}?mode=ro", uri=True)
     con.row_factory = sqlite3.Row
     return con
+
+
+def pg_detail(r):
+    """A people row's detail, with the inferred gender marked as inferred."""
+    role = (r["role_raw"] or "").strip()
+    g = (r["gender"] or "").strip()
+    return " · ".join(x for x in (role, "" if g in ("", "unknown") else f"gender={g} (inferred)") if x)
 
 
 def ssl_context():
@@ -92,6 +109,8 @@ def _intent_kinds(ql):
     rules = [
         (("广告", "advertis", "brand", "shop"), "advertisers"),
         (("主编", "编辑", "editor", "edited"), "editors"),
+        (("女性", "女人", "女士", "woman", "women", "lady", "ladies"), ("people", "woman")),
+        (("男性", "男人", "男士", "gentleman", "gentlemen"), ("people", "man")),
         (("人物", "谁", "people"), "people"),
         (("材料", "面料", "布料", "fabric", "material", "textile"), ("topics", "material")),
         (("颜色", "color", "colour"), ("topics", "color")),
@@ -141,9 +160,9 @@ def retrieve(con, question, per_term=8, sample=40):
         for r in q(f"SELECT a.id,a.name_raw,a.category_raw,a.city_raw,a.source,{PCOLS} FROM advertisers a {JOIN.format(a='a')} "
                    f"WHERE lower(a.name_raw) LIKE ?{yc} LIMIT ?", [like] + yp + [per_term]):
             add("advertisers", r, r["name_raw"], " / ".join(x for x in (r["category_raw"], r["city_raw"]) if x))
-        for r in q(f"SELECT pe.id,pe.name_raw,pe.role_raw,pe.source,{PCOLS} FROM people pe {JOIN.format(a='pe')} "
+        for r in q(f"SELECT pe.id,pe.name_raw,pe.role_raw,pe.gender,pe.source,{PCOLS} FROM people pe {JOIN.format(a='pe')} "
                    f"WHERE (lower(pe.name_raw) LIKE ? OR lower(pe.role_raw) LIKE ?){yc} LIMIT ?", [like, like] + yp + [per_term]):
-            add("people", r, r["name_raw"], r["role_raw"])
+            add("people", r, r["name_raw"], pg_detail(r))
         for r in q(f"SELECT t.id,t.term_raw,t.kind,t.source,{PCOLS} FROM topics t {JOIN.format(a='t')} "
                    f"WHERE lower(t.term_raw) LIKE ?{yc} LIMIT ?", [like] + yp + [per_term]):
             add("topics", r, r["term_raw"], r["kind"])
@@ -154,22 +173,27 @@ def retrieve(con, question, per_term=8, sample=40):
     # when the question names a category (often in Chinese), add a bounded sample
     for target in _intent_kinds(question.lower()):
         if isinstance(target, tuple):
-            kind = target[1]
-            for r in q(f"SELECT t.id,t.term_raw,t.kind,t.source,{PCOLS} FROM topics t {JOIN.format(a='t')} "
-                       f"WHERE t.kind=?{yc} ORDER BY t.term_raw LIMIT ?", [kind] + yp + [sample]):
-                add("topics", r, r["term_raw"], r["kind"])
+            tbl, val = target
+            if tbl == "topics":
+                for r in q(f"SELECT t.id,t.term_raw,t.kind,t.source,{PCOLS} FROM topics t {JOIN.format(a='t')} "
+                           f"WHERE t.kind=?{yc} ORDER BY t.term_raw LIMIT ?", [val] + yp + [sample]):
+                    add("topics", r, r["term_raw"], r["kind"])
+            elif tbl == "people":
+                for r in q(f"SELECT pe.id,pe.name_raw,pe.role_raw,pe.gender,pe.source,{PCOLS} FROM people pe {JOIN.format(a='pe')} "
+                           f"WHERE pe.gender=?{yc} ORDER BY pe.id LIMIT ?", [val] + yp + [sample]):
+                    add("people", r, r["name_raw"], pg_detail(r))
         elif target == "advertisers":
             for r in q(f"SELECT a.id,a.name_raw,a.category_raw,a.city_raw,a.source,{PCOLS} FROM advertisers a {JOIN.format(a='a')} "
                        f"WHERE 1=1{yc} ORDER BY a.id LIMIT ?", yp + [sample]):
                 add("advertisers", r, r["name_raw"], " / ".join(x for x in (r["category_raw"], r["city_raw"]) if x))
         elif target == "editors":
-            for r in q(f"SELECT pe.id,pe.name_raw,pe.role_raw,pe.source,{PCOLS} FROM people pe {JOIN.format(a='pe')} "
+            for r in q(f"SELECT pe.id,pe.name_raw,pe.role_raw,pe.gender,pe.source,{PCOLS} FROM people pe {JOIN.format(a='pe')} "
                        f"WHERE lower(pe.role_raw) LIKE '%editor%'{yc} ORDER BY pe.id LIMIT ?", yp + [sample]):
-                add("people", r, r["name_raw"], r["role_raw"])
+                add("people", r, r["name_raw"], pg_detail(r))
         elif target == "people":
-            for r in q(f"SELECT pe.id,pe.name_raw,pe.role_raw,pe.source,{PCOLS} FROM people pe {JOIN.format(a='pe')} "
+            for r in q(f"SELECT pe.id,pe.name_raw,pe.role_raw,pe.gender,pe.source,{PCOLS} FROM people pe {JOIN.format(a='pe')} "
                        f"WHERE 1=1{yc} ORDER BY pe.id LIMIT ?", yp + [sample]):
-                add("people", r, r["name_raw"], r["role_raw"])
+                add("people", r, r["name_raw"], pg_detail(r))
         elif target == "entries":
             for r in q(f"SELECT e.id,e.title_raw,e.kind,e.author_raw,e.printed_pages_raw,e.source,{PCOLS} FROM entries e {JOIN.format(a='e')} "
                        f"WHERE 1=1{yc} ORDER BY e.id LIMIT ?", yp + [sample]):
