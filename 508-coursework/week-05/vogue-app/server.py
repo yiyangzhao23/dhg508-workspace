@@ -31,6 +31,7 @@ from pathlib import Path
 
 HERE = Path(__file__).parent
 DB = HERE.parent.parent / "week-04" / "vogue" / "vogue.db"
+PAGES = HERE.parent.parent / "week-04" / "vogue" / "artifacts" / "pages"   # scanned page images
 STATIC = HERE / "static"
 PORT = int(os.environ.get("PORT", 8000))
 
@@ -39,12 +40,17 @@ API_URL = os.environ.get("DEEPSEEK_API_URL", "https://api.deepseek.com/chat/comp
 MODEL = os.environ.get("DEEPSEEK_MODEL", "deepseek-flash")
 
 WORD = re.compile(r"[A-Za-z][A-Za-z'-]{2,}")
+STOP = {"the", "and", "for", "with", "was", "were", "are", "who", "whom", "whose", "what",
+        "this", "that", "these", "those", "has", "have", "had", "did", "does", "from",
+        "into", "about", "issue", "issues", "page", "scan", "magazine", "vogue"}
 
 SYSTEM = (
     "You are Miss Redding, editor of Vogue from 1892 to 1900. "
     "Answer ONLY from the archive records given below; never add facts from memory. "
     "Cite every statement with the row id in square brackets, e.g. [advertisers 16], "
     "and give its source line (issue, printed page, scan image). "
+    "Every answer must carry at least one [table id] citation — the reader sees the "
+    "scanned page for each citation, so make sure each claim is tied to a record. "
     "If the records do not contain the answer, say so plainly in character and stop — "
     "do not guess. Reply in the language of the question, and keep it short."
 )
@@ -79,14 +85,14 @@ def issues(con):
 
 
 def _terms(question):
-    return sorted({t.lower() for t in WORD.findall(question)})
+    return sorted({t.lower() for t in WORD.findall(question) if t.lower() not in STOP})
 
 
 def _intent_kinds(ql):
     rules = [
         (("广告", "advertis", "brand", "shop"), "advertisers"),
         (("主编", "编辑", "editor", "edited"), "editors"),
-        (("人物", "谁", "people", "who"), "people"),
+        (("人物", "谁", "people"), "people"),
         (("材料", "面料", "布料", "fabric", "material", "textile"), ("topics", "material")),
         (("颜色", "color", "colour"), ("topics", "color")),
         (("服饰", "服装", "衣服", "裙", "garment", "dress", "gown", "fashion"), ("topics", "garment")),
@@ -112,58 +118,75 @@ def retrieve(con, question, per_term=8, sample=40):
     yc = " AND (" + " OR ".join("i.date_iso LIKE ?" for _ in years) + ")" if years else ""
     yp = [f"{y}%" for y in years]
     JOIN = "JOIN pages p ON p.id={a}.page_id JOIN issues i ON i.id=p.issue_id"
+    PCOLS = "p.ocr_page AS ocr_page, p.printed_label AS printed_label, i.date_iso AS issue"
 
-    def add(table, rid, label, detail, source):
-        key = (table, rid)
+    def add(table, r, label, detail):
+        key = (table, r["id"])
         if key in seen or not (label or "").strip():
             return
         seen.add(key)
-        records.append({"table": table, "id": rid, "label": label.strip(),
-                        "detail": (detail or "").strip(), "source": source or ""})
+        page = r["ocr_page"]
+        records.append({
+            "table": table, "id": r["id"], "label": label.strip(), "detail": (detail or "").strip(),
+            "source": r["source"] or "", "issue": r["issue"], "page": page, "printed": r["printed_label"],
+            # the scanned page image, served by this server at /pages/<issue>/page-NNN.jpg
+            "image": f"/pages/{r['issue']}/page-{page:03d}.jpg" if r["issue"] and page else "",
+        })
 
     def q(sql, params):
         return con.execute(sql, params)
 
     for term in _terms(question):
         like = f"%{term}%"
-        for r in q(f"SELECT a.id,a.name_raw,a.category_raw,a.city_raw,a.source FROM advertisers a {JOIN.format(a='a')} "
+        for r in q(f"SELECT a.id,a.name_raw,a.category_raw,a.city_raw,a.source,{PCOLS} FROM advertisers a {JOIN.format(a='a')} "
                    f"WHERE lower(a.name_raw) LIKE ?{yc} LIMIT ?", [like] + yp + [per_term]):
-            add("advertisers", r["id"], r["name_raw"], " / ".join(x for x in (r["category_raw"], r["city_raw"]) if x), r["source"])
-        for r in q(f"SELECT pe.id,pe.name_raw,pe.role_raw,pe.source FROM people pe {JOIN.format(a='pe')} "
+            add("advertisers", r, r["name_raw"], " / ".join(x for x in (r["category_raw"], r["city_raw"]) if x))
+        for r in q(f"SELECT pe.id,pe.name_raw,pe.role_raw,pe.source,{PCOLS} FROM people pe {JOIN.format(a='pe')} "
                    f"WHERE (lower(pe.name_raw) LIKE ? OR lower(pe.role_raw) LIKE ?){yc} LIMIT ?", [like, like] + yp + [per_term]):
-            add("people", r["id"], r["name_raw"], r["role_raw"], r["source"])
-        for r in q(f"SELECT t.id,t.term_raw,t.kind,t.source FROM topics t {JOIN.format(a='t')} "
+            add("people", r, r["name_raw"], r["role_raw"])
+        for r in q(f"SELECT t.id,t.term_raw,t.kind,t.source,{PCOLS} FROM topics t {JOIN.format(a='t')} "
                    f"WHERE lower(t.term_raw) LIKE ?{yc} LIMIT ?", [like] + yp + [per_term]):
-            add("topics", r["id"], r["term_raw"], r["kind"], r["source"])
-        for r in q(f"SELECT e.id,e.title_raw,e.kind,e.author_raw,e.printed_pages_raw,e.source FROM entries e {JOIN.format(a='e')} "
+            add("topics", r, r["term_raw"], r["kind"])
+        for r in q(f"SELECT e.id,e.title_raw,e.kind,e.author_raw,e.printed_pages_raw,e.source,{PCOLS} FROM entries e {JOIN.format(a='e')} "
                    f"WHERE (lower(e.title_raw) LIKE ? OR lower(e.author_raw) LIKE ?){yc} LIMIT ?", [like, like] + yp + [per_term]):
-            add("entries", r["id"], r["title_raw"], " / ".join(x for x in (r["kind"], r["author_raw"], r["printed_pages_raw"]) if x), r["source"])
+            add("entries", r, r["title_raw"], " / ".join(x for x in (r["kind"], r["author_raw"], r["printed_pages_raw"]) if x))
 
     # when the question names a category (often in Chinese), add a bounded sample
     for target in _intent_kinds(question.lower()):
         if isinstance(target, tuple):
             kind = target[1]
-            for r in q(f"SELECT t.id,t.term_raw,t.kind,t.source FROM topics t {JOIN.format(a='t')} "
+            for r in q(f"SELECT t.id,t.term_raw,t.kind,t.source,{PCOLS} FROM topics t {JOIN.format(a='t')} "
                        f"WHERE t.kind=?{yc} ORDER BY t.term_raw LIMIT ?", [kind] + yp + [sample]):
-                add("topics", r["id"], r["term_raw"], r["kind"], r["source"])
+                add("topics", r, r["term_raw"], r["kind"])
         elif target == "advertisers":
-            for r in q(f"SELECT a.id,a.name_raw,a.category_raw,a.city_raw,a.source FROM advertisers a {JOIN.format(a='a')} "
+            for r in q(f"SELECT a.id,a.name_raw,a.category_raw,a.city_raw,a.source,{PCOLS} FROM advertisers a {JOIN.format(a='a')} "
                        f"WHERE 1=1{yc} ORDER BY a.id LIMIT ?", yp + [sample]):
-                add("advertisers", r["id"], r["name_raw"], " / ".join(x for x in (r["category_raw"], r["city_raw"]) if x), r["source"])
+                add("advertisers", r, r["name_raw"], " / ".join(x for x in (r["category_raw"], r["city_raw"]) if x))
         elif target == "editors":
-            for r in q(f"SELECT pe.id,pe.name_raw,pe.role_raw,pe.source FROM people pe {JOIN.format(a='pe')} "
+            for r in q(f"SELECT pe.id,pe.name_raw,pe.role_raw,pe.source,{PCOLS} FROM people pe {JOIN.format(a='pe')} "
                        f"WHERE lower(pe.role_raw) LIKE '%editor%'{yc} ORDER BY pe.id LIMIT ?", yp + [sample]):
-                add("people", r["id"], r["name_raw"], r["role_raw"], r["source"])
+                add("people", r, r["name_raw"], r["role_raw"])
         elif target == "people":
-            for r in q(f"SELECT pe.id,pe.name_raw,pe.role_raw,pe.source FROM people pe {JOIN.format(a='pe')} "
+            for r in q(f"SELECT pe.id,pe.name_raw,pe.role_raw,pe.source,{PCOLS} FROM people pe {JOIN.format(a='pe')} "
                        f"WHERE 1=1{yc} ORDER BY pe.id LIMIT ?", yp + [sample]):
-                add("people", r["id"], r["name_raw"], r["role_raw"], r["source"])
+                add("people", r, r["name_raw"], r["role_raw"])
         elif target == "entries":
-            for r in q(f"SELECT e.id,e.title_raw,e.kind,e.author_raw,e.printed_pages_raw,e.source FROM entries e {JOIN.format(a='e')} "
+            for r in q(f"SELECT e.id,e.title_raw,e.kind,e.author_raw,e.printed_pages_raw,e.source,{PCOLS} FROM entries e {JOIN.format(a='e')} "
                        f"WHERE 1=1{yc} ORDER BY e.id LIMIT ?", yp + [sample]):
-                add("entries", r["id"], r["title_raw"], " / ".join(x for x in (r["kind"], r["author_raw"], r["printed_pages_raw"]) if x), r["source"])
+                add("entries", r, r["title_raw"], " / ".join(x for x in (r["kind"], r["author_raw"], r["printed_pages_raw"]) if x))
 
     return records
+
+
+def page_images(records, limit=12):
+    """The scanned pages behind the records, de-duplicated, in relevance order."""
+    seen, out = set(), []
+    for r in records:
+        key = (r.get("issue"), r.get("page"))
+        if key[0] and key[1] and key not in seen and r.get("image"):
+            seen.add(key)
+            out.append({"url": r["image"], "issue": r["issue"], "page": r["page"], "printed": r.get("printed") or ""})
+    return out[:limit]
 
 
 def build_messages(question, iss, records):
@@ -201,10 +224,11 @@ def ask_model(messages):
 
 
 class Handler(BaseHTTPRequestHandler):
-    def _send(self, status, body: bytes, kind: str):
+    def _send(self, status, body: bytes, kind: str, cache: str = "no-store"):
         self.send_response(status)
         self.send_header("Content-Type", kind)
         self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", cache)   # so the browser never shows a stale page
         self.end_headers()
         self.wfile.write(body)
 
@@ -214,6 +238,12 @@ class Handler(BaseHTTPRequestHandler):
         if self.path == "/api/health":
             body = json.dumps({"ok": True, "db": DB.is_file(), "key": bool(API_KEY)})
             return self._send(200, body.encode(), "application/json; charset=utf-8")
+        m = re.fullmatch(r"/pages/(\d{4}-\d{2}-\d{2})/page-(\d{3})\.jpg", self.path)
+        if m:
+            f = PAGES / m.group(1) / f"page-{m.group(2)}.jpg"
+            if f.is_file():
+                return self._send(200, f.read_bytes(), "image/jpeg", cache="public, max-age=86400")
+            return self._send(404, b"no image", "text/plain")
         self._send(404, b"not found", "text/plain")
 
     def do_POST(self):
@@ -250,7 +280,8 @@ class Handler(BaseHTTPRequestHandler):
                 error = f"DeepSeek call failed: {exc}"
 
         body = json.dumps({"answer": answer, "model": model_used, "error": error,
-                           "records": records, "issues": iss}, ensure_ascii=False)
+                           "records": records, "issues": iss, "images": page_images(records)},
+                          ensure_ascii=False)
         self._send(200, body.encode("utf-8"), "application/json; charset=utf-8")
 
     def log_message(self, fmt, *args):

@@ -42,6 +42,15 @@ the demo's: page → server → model → database.
 If `DEEPSEEK_API_KEY` is not set, the page still shows the retrieved records and a
 note explaining that no model answer was produced.
 
+## Pictures with the answer
+
+Every row knows the scanned page it came from, and those pages are the images under
+`../../week-04/vogue/artifacts/pages/`. The server serves them at
+`/pages/<issue>/page-NNN.jpg`; the page shows the pages behind the answer as
+thumbnails (click to open the full scan), and each `[table id]` citation links to
+its page. The images are large local files (git-ignored); without them the answer
+still works, just without pictures.
+
 ## How the answer stays grounded
 
 1. `retrieve()` matches the question's words against `advertisers` / `people` /
