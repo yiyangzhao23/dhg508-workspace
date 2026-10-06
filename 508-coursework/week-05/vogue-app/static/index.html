@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ask Miss Redding · Vogue 1892–1900</title>
+<style>
+  :root{
+    --paper:#f3ede1; --card:#fbf7ef; --ink:#221f1a; --soft:#756c5e; --line:#ddd2bd;
+    --accent:#7a1f2b; --accent-soft:#f2e2df; --ok:#2f6b4f; --ok-soft:#e3efe7;
+    --serif:"Iowan Old Style","Palatino Linotype",Georgia,"Songti SC",serif;
+    --sans:"Avenir Next","Helvetica Neue","PingFang SC",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.65 var(--sans)}
+  .wrap{max-width:920px;margin:0 auto;padding:48px 28px 64px}
+  .kicker{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--soft)}
+  h1{font-family:var(--serif);font-size:46px;line-height:1.08;margin:10px 0 6px;letter-spacing:-.5px}
+  h1 em{font-style:italic;color:var(--accent)}
+  .lede{color:var(--soft);max-width:38em;margin:0 0 8px}
+  .lede code{background:#e9e0cf;padding:1px 6px;border-radius:6px;font-size:14px}
+
+  .ask{margin-top:28px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+  textarea{width:100%;min-height:96px;resize:vertical;border:1px solid var(--line);border-radius:12px;
+           padding:14px;font:17px/1.5 var(--sans);background:#fff;color:var(--ink)}
+  textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .row{display:flex;gap:12px;align-items:center;margin-top:12px;flex-wrap:wrap}
+  .btn{appearance:none;border:0;border-radius:999px;background:var(--ink);color:#fff;font:600 16px var(--sans);
+       padding:13px 26px;min-height:48px;cursor:pointer}
+  .btn:hover{background:#000}
+  .btn:disabled{opacity:.5;cursor:default}
+  .hint{color:var(--soft);font-size:13px;margin-left:auto}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .chip{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:7px 14px;
+        font:14px var(--sans);cursor:pointer}
+  .chip:hover{border-color:var(--accent);color:var(--accent)}
+
+  .status{margin-top:22px;color:var(--soft);display:none}
+  .status.on{display:block}
+  .status i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--accent);
+            margin-right:8px;animation:pulse 1s ease-in-out infinite}
+  @keyframes pulse{50%{opacity:.25}}
+
+  .result{display:none;margin-top:26px}
+  .badge{display:inline-flex;gap:8px;align-items:center;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+         background:var(--ok-soft);color:var(--ok);border-radius:999px;padding:6px 13px}
+  .badge.warn{background:var(--accent-soft);color:var(--accent)}
+  .answer{font-family:var(--serif);font-size:21px;line-height:1.6;margin:16px 0 6px;white-space:pre-wrap}
+  .answer .cite{font-family:var(--sans);font-size:13px;color:var(--accent);background:var(--accent-soft);
+                border-radius:6px;padding:1px 6px;white-space:nowrap}
+  .warn-note{background:var(--accent-soft);color:var(--accent);border-radius:10px;padding:10px 14px;font-size:14px;margin-top:12px}
+
+  details.records{margin-top:26px;border-top:1px solid var(--line);padding-top:14px}
+  details.records summary{cursor:pointer;color:var(--soft);font-size:14px;letter-spacing:.06em}
+  table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+  th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);font-weight:600}
+  td.id{font-family:var(--sans);color:var(--accent);white-space:nowrap}
+  td.src{color:var(--soft);font-size:12.5px}
+  .empty{color:var(--soft)}
+  footer{margin-top:46px;padding-top:16px;border-top:1px solid var(--line);color:var(--soft);font-size:13px;
+         display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  @media (max-width:600px){
+    .wrap{padding:30px 18px 48px} h1{font-size:33px} .answer{font-size:19px}
+    .hint{display:none} .btn{width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">DHG508 · Week 5 · vogue.db behind it</div>
+  <h1>Ask <em>Miss Redding</em> about the Vogue archive</h1>
+  <p class="lede">The 1892–1900 issues: advertisers, people, garments, materials, places, articles.
+    The server pulls matching rows from <code>vogue.db</code> and a live DeepSeek model writes the answer with citations.</p>
+
+  <section class="ask">
+    <textarea id="q" placeholder="例如：Park &amp; Tilford 在这几期登过什么广告？／1893 年出现过哪些材料？／这两期里有什么花？（也可用英文）"></textarea>
+    <div class="row">
+      <button class="btn" id="go" type="button">Ask</button>
+      <span class="hint">⌘/Ctrl + Enter</span>
+    </div>
+    <div class="chips">
+      <button class="chip" type="button">Park &amp; Tilford 登过什么广告？</button>
+      <button class="chip" type="button">1893 年出现过哪些材料？</button>
+      <button class="chip" type="button">谁主编了 Vogue？</button>
+      <button class="chip" type="button">库里记了哪些花卉？</button>
+    </div>
+  </section>
+
+  <div class="status" id="status"><i></i><span id="statusText">检索数据库，并请 Miss Redding 作答…</span></div>
+
+  <section class="result" id="result">
+    <span class="badge" id="badge">live model</span>
+    <div class="answer" id="answer"></div>
+    <div id="warn"></div>
+
+    <details class="records" id="records" open>
+      <summary id="recordsSummary">Archive records used</summary>
+      <div id="recordsBody"></div>
+    </details>
+  </section>
+
+  <footer>
+    <span>browser → server.py → vogue.db → DeepSeek (deepseek-flash) → back</span>
+    <span>9 issues · 254 pages · 1876 rows</span>
+  </footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const q = $('q'), go = $('go');
+
+document.querySelectorAll('.chip').forEach(c => c.onclick = () => { q.value = c.textContent; ask(); });
+q.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') ask(); });
+
+function escapeHtml(s){ const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+function withCites(text){
+  return escapeHtml(text).replace(/\[([a-z]+)\s+(\d+)\]/gi,
+    (_, t, n) => `<span class="cite">[${t} ${n}]</span>`);
+}
+
+async function ask(){
+  const question = q.value.trim();
+  if (!question) return;
+  go.disabled = true;
+  $('result').style.display = 'none';
+  $('status').classList.add('on');
+  $('statusText').textContent = '检索数据库，并请 Miss Redding 作答…';
+
+  let data;
+  try {
+    const res = await fetch('/api/ask', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question })
+    });
+    data = await res.json();
+  } catch (err) {
+    $('statusText').textContent = '请求失败：' + err;
+    go.disabled = false; return;
+  }
+
+  $('status').classList.remove('on');
+  const live = !!data.answer;
+  const badge = $('badge');
+  badge.textContent = live ? ('live model · ' + (data.model || 'deepseek')) : 'records only (no model answer)';
+  badge.className = 'badge' + (live ? '' : ' warn');
+
+  $('answer').innerHTML = live
+    ? withCites(data.answer)
+    : '<span class="empty">（未生成回答——见下方提示与检索到的记录。）</span>';
+
+  $('warn').innerHTML = data.error
+    ? `<div class="warn-note">${escapeHtml(data.error)}</div>` : '';
+
+  const recs = data.records || [];
+  $('recordsSummary').textContent = `Archive records used (${recs.length})`;
+  $('recordsBody').innerHTML = recs.length ? `
+    <table>
+      <thead><tr><th>row</th><th>value</th><th>detail</th><th>source</th></tr></thead>
+      <tbody>${recs.map(r => `<tr>
+        <td class="id">[${escapeHtml(r.table)} ${r.id}]</td>
+        <td>${escapeHtml(r.label)}</td>
+        <td>${escapeHtml(r.detail)}</td>
+        <td class="src">${escapeHtml(r.source)}</td></tr>`).join('')}</tbody>
+    </table>` : '<p class="empty">没有匹配的记录。</p>';
+
+  $('result').style.display = 'block';
+  go.disabled = false;
+}
+go.onclick = ask;
+</script>
+</body>
+</html>
